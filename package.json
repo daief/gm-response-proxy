@@ -1,0 +1,9 @@
+{
+  "name": "gm-response-proxy",
+  "version": "0.0.1",
+  "license": "MIT",
+  "devDependencies": {
+    "typescript": "^4.1.2",
+    "webpack": "^5.8.0"
+  }
+}
