@@ -1,6 +1,7 @@
 import { Configuration } from 'webpack';
 import path from 'path';
 import { GMPlugin } from './GMPlugin';
+import { VueLoaderPlugin } from 'vue-loader';
 import pkg from '../package.json';
 
 const nodeEnv: Configuration['mode'] = process.env.NODE_ENV as any;
@@ -13,8 +14,35 @@ const config: Configuration = {
     rules: [
       {
         test: /\.tsx?$/,
-        use: 'ts-loader',
         exclude: /node_modules/,
+        use: {
+          loader: 'ts-loader',
+          options: { appendTsSuffixTo: [/\.vue$/] },
+        },
+      },
+      {
+        test: /\.vue$/,
+        use: 'vue-loader',
+      },
+      {
+        test: /\.less$/,
+        exclude: /\.lazy\.less$/i,
+        use: [
+          {
+            loader: 'style-loader',
+          },
+          {
+            loader: 'css-loader',
+          },
+          {
+            loader: 'less-loader',
+            options: {
+              lessOptions: {
+                strictMath: true,
+              },
+            },
+          },
+        ],
       },
     ],
   },
@@ -28,6 +56,7 @@ const config: Configuration = {
     filename: '[name].js',
   },
   plugins: [
+    new (VueLoaderPlugin as any)(),
     new GMPlugin({
       scriptConfig: [
         ['name', 'Response Proxy'],
@@ -43,6 +72,7 @@ const config: Configuration = {
         ['grant', 'GM_setValue'],
         ['grant', 'GM_getValue'],
         ['grant', 'GM_log'],
+        ['grant', 'GM_addStyle'],
       ],
     }),
   ],

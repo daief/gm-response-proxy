@@ -1,4 +1,6 @@
-// TODO ui
-export function a() {
-  console.log(11111111);
+import { createApp } from 'vue';
+import App from './Panel.vue';
+
+export function render(el: any) {
+  createApp(App).mount(el);
 }
