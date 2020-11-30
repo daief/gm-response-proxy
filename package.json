@@ -13,8 +13,9 @@
   },
   "license": "MIT",
   "scripts": {
-    "watch": "cross-env NODE_ENV=development TS_NODE_PROJECT=\"tsconfig.webpack.json\" webpack --config ./config/index.ts -w",
-    "build": "cross-env NODE_ENV=production TS_NODE_PROJECT=\"tsconfig.webpack.json\" webpack --config ./config/index.ts"
+    "runpack": "cross-env TS_NODE_PROJECT=\"tsconfig.webpack.json\" webpack --config ./config/index.ts --progress",
+    "watch": "cross-env NODE_ENV=development yarn runpack --watch",
+    "build": "cross-env NODE_ENV=production yarn runpack"
   },
   "devDependencies": {
     "@types/node": "^14.14.10",

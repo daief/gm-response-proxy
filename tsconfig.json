@@ -18,7 +18,8 @@
     "rootDir": ".",
     "allowJs": true,
     "resolveJsonModule": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "downlevelIteration": true
   },
   "exclude": ["node_modules", "dist"],
   "compileOnSave": false
