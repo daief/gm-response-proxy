@@ -39,6 +39,8 @@ if (typeof Response !== 'undefined') {
         return nativeRes;
       }
     }
+
+    return nativeRes;
   };
 
   Response.prototype.text = async function (this: Response, ...args) {
