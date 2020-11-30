@@ -44,7 +44,7 @@ XMLHttpRequest.prototype.send = function (
         this.responseText = matchedRule.response;
 
         GM_log(
-          `❗️ Response is proxyed:\n`,
+          `❗️ [XHR] Response is proxyed:\n`,
           `${payload.method} ${payload.url}\n`,
           safeParse(matchedRule.response)
         );

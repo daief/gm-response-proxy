@@ -16,7 +16,7 @@ function proxyRes(response: Response) {
 
   if (res) {
     GM_log(
-      `❗️ Response is proxyed:\n`,
+      `❗️ [fetch] Response is proxyed:\n`,
       `${payload?.method || ''} ${response.url}\n`,
       safeParse(res)
     );
@@ -33,6 +33,9 @@ if (typeof Response !== 'undefined') {
       try {
         return JSON.parse(res);
       } catch (error) {
+        console.warn(
+          `❌ Error when parse proxy response for [${this.url}]. Use original result.`
+        );
         return nativeRes;
       }
     }
