@@ -30,7 +30,7 @@ XMLHttpRequest.prototype.send = function (
         payload.url.includes(it.apiTest)
       );
 
-      if (matchedRule && matchedRule.response && this.readyState === 3) {
+      if (matchedRule?.response && this.readyState === 3) {
         Object.defineProperty(this, 'response', {
           writable: true,
         });

@@ -1,5 +1,7 @@
+import './proxy/fetch';
 import './proxy/xhr';
 import './global.less';
+import { vmCtx } from './common';
 
 // TODO change to async
 import { render } from './SettingPanel';
@@ -12,7 +14,7 @@ let tX = 0;
 let tY = 0;
 let elRect: DOMRect | null = null;
 
-window.addEventListener('DOMContentLoaded', () => {
+vmCtx.addEventListener('DOMContentLoaded', () => {
   const el = document.createElement('div');
   el.innerText = '设置';
   el.className = 'response-proxy-page-root-fixed-button';
@@ -39,7 +41,7 @@ window.addEventListener('DOMContentLoaded', () => {
     tY = e.clientY - elRect.top;
   });
 
-  window.addEventListener('mouseup', async e => {
+  vmCtx.addEventListener('mouseup', async e => {
     isDrag = false;
     if (isMove) {
       isMove = false;
@@ -51,7 +53,7 @@ window.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  window.addEventListener('mousemove', e => {
+  vmCtx.addEventListener('mousemove', e => {
     isMove = true;
     if (!isDrag) {
       return;
@@ -60,11 +62,11 @@ window.addEventListener('DOMContentLoaded', () => {
     e.preventDefault();
 
     let left = e.clientX - tX;
-    left = Math.min(left, window.innerWidth - elRect!.width);
+    left = Math.min(left, vmCtx.innerWidth - elRect!.width);
     left = Math.max(left, 0);
 
     let top = e.clientY - tY;
-    top = Math.min(top, window.innerHeight - elRect!.height);
+    top = Math.min(top, vmCtx.innerHeight - elRect!.height);
     top = Math.max(top, 0);
 
     el.style.left = left + 'px';
