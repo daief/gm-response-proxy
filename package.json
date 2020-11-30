@@ -1,11 +1,16 @@
 {
   "name": "gm-response-proxy",
+  "version": "0.0.1",
+  "private": true,
   "description": "",
   "author": {
     "name": "daief",
     "email": "defeng_mail@163.com"
   },
-  "version": "0.0.1",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/daief/gm-response-proxy"
+  },
   "license": "MIT",
   "scripts": {
     "watch": "cross-env NODE_ENV=development TS_NODE_PROJECT=\"tsconfig.webpack.json\" webpack --config ./config/index.ts -w",
