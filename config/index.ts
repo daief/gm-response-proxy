@@ -1,7 +1,8 @@
 import { Configuration } from 'webpack';
 import path from 'path';
-import { GMPlugin } from './GMPlugin';
 import { VueLoaderPlugin } from 'vue-loader';
+import TerserPlugin from 'terser-webpack-plugin';
+import { GMPlugin } from './GMPlugin';
 import pkg from '../package.json';
 
 const nodeEnv: Configuration['mode'] = process.env.NODE_ENV as any;
@@ -77,5 +78,21 @@ const config: Configuration = {
     }),
   ],
 };
+
+if (nodeEnv === 'production') {
+  config.optimization = {
+    minimize: true,
+    minimizer: [
+      new TerserPlugin({
+        terserOptions: {
+          format: {
+            comments: false,
+          },
+        },
+        extractComments: true,
+      }),
+    ],
+  };
+}
 
 export default config;

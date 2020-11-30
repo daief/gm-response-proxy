@@ -1,3 +1,5 @@
+declare module 'terser-webpack-plugin';
+
 declare module '*.less';
 declare module '*.vue' {
   import { defineComponent } from 'vue';

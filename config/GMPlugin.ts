@@ -29,9 +29,11 @@ export class GMPlugin {
 
   apply(compiler: Compiler) {
     compiler.hooks.compilation.tap(NAME, compilation => {
-      compilation.hooks.processAssets.tap(
+      // after process, after optimization
+      compilation.hooks.afterProcessAssets.tap(
         {
           name: NAME,
+          // stage: Compilation.PROCESS_ASSETS_STAGE_ADDITIONS,
           stage: Compilation.PROCESS_ASSETS_STAGE_ADDITIONS,
         },
         () => {
