@@ -19,7 +19,7 @@ export const Store = {
   getSetList(): ISet[] {
     let res = GM_getValue(KEY_SET);
     res = Array.isArray(res) ? res : [];
-    return [];
+    return res;
   },
   findCurrentSet(): ISet {
     const ruleSet = Store.getSetList().find(it =>
