@@ -4,19 +4,19 @@ import './global.less';
 import { vmCtx } from './common';
 
 // TODO change to async
-import { render } from './SettingPanel';
-// import(/* webpackChunkName: 'setting-panel' */ './SettingPanel');
+import { render } from './Setting';
+// import(/* webpackChunkName: 'setting' */ './Setting');
 
-let handler: any;
-let isDrag = false;
-let isMove = false;
-let tX = 0;
-let tY = 0;
-let elRect: DOMRect | null = null;
+function bootstrap() {
+  let handler: any;
+  let isDrag = false;
+  let isMove = false;
+  let tX = 0;
+  let tY = 0;
+  let elRect: DOMRect | null = null;
 
-vmCtx.addEventListener('DOMContentLoaded', () => {
   const el = document.createElement('div');
-  el.innerText = '设置';
+  el.innerText = 'o_O||';
   el.className = 'response-proxy-page-root-fixed-button';
 
   function onClickEl(_e: MouseEvent) {
@@ -77,4 +77,12 @@ vmCtx.addEventListener('DOMContentLoaded', () => {
 
   document.body.appendChild(el);
   document.body.appendChild(elForMount);
-});
+}
+
+if (document.readyState === 'loading') {
+  vmCtx.addEventListener('DOMContentLoaded', () => {
+    bootstrap();
+  });
+} else {
+  bootstrap();
+}

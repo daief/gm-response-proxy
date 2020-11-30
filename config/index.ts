@@ -61,7 +61,7 @@ const config: Configuration = {
     new GMPlugin({
       scriptConfig: [
         ['name', 'Response Proxy'],
-        ['namespace', 'http://tampermonkey.net/'],
+        ['namespace', pkg.author.name],
         ['version', pkg.version],
         ['description', pkg.description],
         ['author', pkg.author.name],

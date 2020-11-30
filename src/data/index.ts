@@ -21,6 +21,11 @@ export const Store = {
     res = Array.isArray(res) ? res : [];
     return res;
   },
+  getMatchedSetList(): ISet[] {
+    return Store.getSetList().filter(it =>
+      new RegExp(it.domainTest, 'ig').test(location.host)
+    );
+  },
   findCurrentSet(): ISet {
     const ruleSet = Store.getSetList().find(it =>
       new RegExp(it.domainTest, 'ig').test(location.host)
