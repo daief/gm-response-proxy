@@ -1,12 +1,15 @@
-import { NAMESPACE } from '@/common';
+import { NAMESPACE, uuid4 } from '@/common';
+import values from 'lodash/values';
 
 export interface IPrxyRule {
+  id: string;
   disabled: boolean;
   apiTest: string;
   response: string;
 }
 
 export interface ISet {
+  id: string;
   domainTest: string;
   rules: IPrxyRule[];
 }
@@ -16,8 +19,11 @@ const KEY_SET = 'all_set';
 
 export const Store = {
   NAMESPACE,
+  getStoreObject(): Record<string, ISet> {
+    return GM_getValue(KEY_SET) || {};
+  },
   getSetList(): ISet[] {
-    let res = GM_getValue(KEY_SET);
+    let res = values(Store.getStoreObject());
     res = Array.isArray(res) ? res : [];
     return res;
   },
@@ -30,9 +36,21 @@ export const Store = {
     const ruleSet = Store.getSetList().find(it =>
       new RegExp(it.domainTest, 'ig').test(location.host)
     ) || {
+      id: uuid4(),
       domainTest: location.host,
       rules: [],
     };
     return ruleSet;
+  },
+  updateSetList(input: ISet[]) {
+    const store = Store.getStoreObject();
+    input.forEach(it => {
+      const target = store[it.id];
+      if (target) {
+        return Object.assign(target, it);
+      }
+      store[it.id] = it;
+    });
+    GM_setValue(KEY_SET, store);
   },
 };

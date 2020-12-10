@@ -1,4 +1,14 @@
-.response-proxy-page-root-fixed-button {
+[class*='@{prefix}__'] {
+  font-size: @fontSize;
+  font-family: @baseFamily;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-feature-settings: 'tnum';
+  font-weight: 400;
+}
+
+.@{prefix}__page-root-fixed-button {
   position: fixed;
   top: 148px;
   left: 0;
@@ -6,13 +16,14 @@
   height: 40px;
   z-index: 4000;
   cursor: pointer;
-  background-color: #6cf;
   opacity: 0.5;
   transition: opacity 0.3s;
   box-shadow: 0 0 10px 0px rgb(0 0 0 / 35%);
   display: flex;
   align-items: center;
   justify-content: center;
+  background-color: @color2;
+  color: @textColor;
 
   &:hover {
     opacity: 1;

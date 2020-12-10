@@ -1,17 +1,18 @@
 import { createApp } from 'vue';
-import Panel from './Panel.vue';
+import Root from './Root.vue';
 
 export function render(el: any) {
-  const vm = createApp(Panel);
+  const vm = createApp(Root);
+
   const $root = vm.mount(el);
 
   return {
     $root,
     open: () => {
-      ($root.$data as any).show = true;
+      return ($root as any).open();
     },
     close: () => {
-      ($root.$data as any).show = false;
+      return ($root as any).close();
     },
   };
 }

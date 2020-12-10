@@ -17,7 +17,7 @@ function bootstrap() {
 
   const el = document.createElement('div');
   el.innerText = 'o_O||';
-  el.className = 'response-proxy-page-root-fixed-button';
+  el.className = 'gm-rp__page-root-fixed-button';
 
   function onClickEl(_e: MouseEvent) {
     if (isMove) {
@@ -77,6 +77,11 @@ function bootstrap() {
 
   document.body.appendChild(el);
   document.body.appendChild(elForMount);
+
+  if (process.env.NODE_ENV === 'development') {
+    // TODO rm
+    onClickEl({} as any);
+  }
 }
 
 if (document.readyState === 'loading') {

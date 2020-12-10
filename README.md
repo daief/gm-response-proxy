@@ -11,18 +11,13 @@
 // @grant                   GM_log
 // @grant                   GM_xmlhttpRequest
 // @connect                 127.0.0.1
+// @match                   *://localhost*/*
 // ==/UserScript==
-
-const code = GM_getValue('code');
-if (code) {
-  eval(code);
-}
 
 const loop = () => {
   GM_xmlhttpRequest({
     url: 'http://127.0.0.1:7777/index.js',
     onload: e => {
-      console.log('check');
       const res = e.responseText;
       if (e.status === 200 && code !== res) {
         GM_setValue('code', res);
@@ -33,4 +28,9 @@ const loop = () => {
 };
 
 setInterval(loop, 3000);
+
+const code = GM_getValue('code');
+if (code) {
+  eval(code);
+}
 ```

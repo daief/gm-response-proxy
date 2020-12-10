@@ -4,6 +4,7 @@ import { VueLoaderPlugin } from 'vue-loader';
 import TerserPlugin from 'terser-webpack-plugin';
 import { GMPlugin } from './GMPlugin';
 import pkg from '../package.json';
+import globalVars from './less-variables';
 
 const nodeEnv: Configuration['mode'] = process.env.NODE_ENV as any;
 
@@ -27,7 +28,6 @@ const config: Configuration = {
       },
       {
         test: /\.less$/,
-        exclude: /\.lazy\.less$/i,
         use: [
           {
             loader: 'style-loader',
@@ -40,6 +40,8 @@ const config: Configuration = {
             options: {
               lessOptions: {
                 strictMath: true,
+                javascriptEnabled: true,
+                globalVars: globalVars,
               },
             },
           },
