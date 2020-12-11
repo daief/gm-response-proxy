@@ -133,3 +133,11 @@ lib
 # gatsby files
 .cache/
 public
+
+# yarn
+.yarn/*
+!.yarn/releases
+!.yarn/plugins
+!.yarn/sdks
+!.yarn/versions
+.pnp.*
