@@ -1,9 +1,5 @@
-import { cache, safeParse, vmCtx } from '@/common';
+import { cache, vmCtx } from '@/common';
 import { Store } from '@/data';
-
-const originalFetch = vmCtx.fetch;
-const originalJson = Response.prototype.json;
-const originalText = Response.prototype.text;
 
 function proxyRes(response: Response) {
   const ruleSet = Store.findCurrentSet();
@@ -11,53 +7,76 @@ function proxyRes(response: Response) {
     response.url.includes(it.apiTest)
   );
 
-  const res = matchedRule?.response;
-  const payload = cache.get(response);
+  return matchedRule?.response;
+}
 
-  if (res) {
-    GM_log(
-      `❗️ [fetch] Response is proxyed:\n`,
-      `${payload?.method || ''} ${response.url}\n`,
-      safeParse(res)
-    );
-  }
-
-  return res;
+function log({ method, url, status, response }: any) {
+  GM_log(`❗️ [fetch] Response is proxyed:\n`);
+  console.table({
+    method,
+    url,
+    status,
+    'proxyed response': response,
+  });
 }
 
 if (typeof Response !== 'undefined') {
+  const nativeFetch = vmCtx.fetch;
+  const nativeJson = Response.prototype.json;
+  const nativeText = Response.prototype.text;
+
   Response.prototype.json = async function (this: Response, ...args) {
-    const nativeRes = await originalJson.apply(this, args);
-    const res = proxyRes(this);
-    if (res) {
-      try {
-        return JSON.parse(res);
-      } catch (error) {
-        console.warn(
-          `❌ Error when parse proxy response for [${this.url}]. Use original result.`
-        );
-        return nativeRes;
-      }
+    const nativeRes = await nativeJson.apply(this, args);
+    const payload = cache.get(this);
+
+    if (payload?.proxyedResponse) {
+      log({
+        method: payload.method,
+        url: this.url,
+        status: this.status,
+        response: payload.proxyedResponse,
+      });
+      return JSON.parse(payload.proxyedResponse);
     }
 
     return nativeRes;
   };
 
   Response.prototype.text = async function (this: Response, ...args) {
-    const nativeRes = await originalText.apply(this, args);
-    const res = proxyRes(this);
-    if (res) {
-      return res;
+    const nativeRes = await nativeText.apply(this, args);
+    const payload = cache.get(this);
+
+    if (payload?.proxyedResponse) {
+      log({
+        method: payload.method,
+        url: this.url,
+        status: this.status,
+        response: payload.proxyedResponse,
+      });
+      return payload.proxyedResponse;
     }
+
     return nativeRes;
   };
 
-  vmCtx.fetch = async function (...args) {
-    const res: Response = await originalFetch.apply(this, args);
+  vmCtx.fetch = async function (input: RequestInfo, init?: RequestInit) {
+    let method = 'GET';
+    if (input instanceof Request) {
+      method = input.method;
+    } else {
+      method = init?.method || method;
+    }
+
+    const res: Response = await nativeFetch.apply(this, [input, init]);
+
+    const proxyedResponse = proxyRes(res);
+
     cache.set(res, {
-      method: args[1]?.method || 'GET',
+      method,
       url: res.url,
+      proxyedResponse,
     });
+
     return res;
   };
 }

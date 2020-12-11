@@ -21,8 +21,9 @@
         <div v-for="(rule, idx2) in it.rules" :key="idx2">
           <div>
             <label>rule-{{ idx2 }}:</label>
-            <div>apiTest: <input v-model="rule.apiTest" /></div>
-            <div>apiTest2: <input v-model="rule.apiTest" /></div>
+            <div>
+              apiTest: <input v-model="rule.apiTest" style="width: 300px" />
+            </div>
             <div>response: <textarea v-model="rule.response" /></div>
           </div>
         </div>
@@ -49,7 +50,6 @@ export default defineComponent({
 
     onMounted(() => {
       state.matchedSetList = Store.getMatchedSetList();
-      console.log(state.matchedSetList);
     });
 
     watch(
@@ -73,14 +73,11 @@ export default defineComponent({
         show.value = false;
       },
       handleAdd: () => {
-        state.matchedSetList = [
-          {
-            domainTest: location.hostname,
-            rules: [],
-            id: uuid4(),
-          },
-          ...state.matchedSetList,
-        ];
+        state.matchedSetList.unshift({
+          domainTest: location.hostname,
+          rules: [],
+          id: uuid4(),
+        });
       },
       handleAddRule: (i: number) => {
         state.matchedSetList[i].rules.push({

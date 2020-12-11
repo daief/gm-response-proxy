@@ -5,6 +5,7 @@ export const cache = new WeakMap<
   {
     method: string;
     url: string;
+    [k: string]: any;
   }
 >();
 

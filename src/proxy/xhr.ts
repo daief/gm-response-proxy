@@ -1,58 +1,56 @@
-import { cache, safeParse } from '@/common';
+import { vmCtx } from '@/common';
 import { Store } from '@/data';
 
-const originalOpen = XMLHttpRequest.prototype.open;
-const originalSend = XMLHttpRequest.prototype.send;
+const NativeXMLHttpRequest = vmCtx.XMLHttpRequest;
 
-XMLHttpRequest.prototype.open = function (...args: any[]) {
-  cache.set(this, {
-    method: args[0],
-    url: args[1],
-  });
-  return originalOpen.apply(this, args);
-};
-
-XMLHttpRequest.prototype.send = function (
-  this: XMLHttpRequest,
-  ...args: any[]
+vmCtx.XMLHttpRequest = class extends (
+  NativeXMLHttpRequest
 ) {
-  this.addEventListener(
-    'readystatechange',
-    function () {
-      const payload = cache.get(this);
+  #mockResponse: string;
+  #url: string;
+  #method: string;
+  #proxyed: boolean = false;
 
-      if (!payload) {
-        return;
-      }
+  constructor() {
+    super();
 
-      const ruleSet = Store.findCurrentSet();
-      const matchedRule = ruleSet.rules.find(it =>
-        payload.url.includes(it.apiTest)
-      );
+    ['load', 'error'].forEach(ev => {
+      this.addEventListener(ev, () => {
+        if (!this.#proxyed) return;
 
-      if (matchedRule?.response && this.readyState === 3) {
-        Object.defineProperty(this, 'response', {
-          writable: true,
+        GM_log(`❗️ [XHR] Response is proxyed:\n`);
+        console.table({
+          method: this.#method,
+          url: this.#url,
+          status: this.status,
+          'proxyed response': this.#mockResponse,
         });
-        Object.defineProperty(this, 'responseText', {
-          writable: true,
-        });
+      });
+    });
+  }
 
-        // @ts-ignore
-        this.response = matchedRule.response;
-        // @ts-ignore
-        this.responseText = matchedRule.response;
+  get response() {
+    return this.#mockResponse || super.response;
+  }
 
-        GM_log(
-          `❗️ [XHR] Response is proxyed:\n`,
-          `${payload.method} ${payload.url}\n`,
-          safeParse(matchedRule.response)
-        );
-      }
-    },
-    {
-      capture: true,
+  get responseText() {
+    return this.#mockResponse || super.responseText;
+  }
+
+  open(method: string, url: string): void {
+    this.#method = method;
+    this.#url = url;
+
+    const ruleSet = Store.findCurrentSet();
+    const matchedRule = ruleSet.rules.find(it =>
+      this.#url.includes(it.apiTest)
+    );
+
+    if (matchedRule?.response) {
+      this.#mockResponse = matchedRule.response;
+      this.#proxyed = true;
     }
-  );
-  return originalSend.apply(this, args);
+
+    return super.open(method, url);
+  }
 };
