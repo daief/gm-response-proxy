@@ -53,4 +53,11 @@ export const Store = {
     });
     GM_setValue(KEY_SET, store);
   },
+  deleteSets(ids: string[]) {
+    const store = Store.getStoreObject();
+    ids.forEach(id => {
+      delete store[id];
+    });
+    GM_setValue(KEY_SET, store);
+  },
 };

@@ -1,30 +1,62 @@
 <template>
   <div v-show="show" :class="cls" @click.self="close">
     <div :class="`${cls}--container`">
-      <Button type="primary" :onClick="handleAdd">+</Button>
+      <Button type="primary" @click="handleAddSet"> + 新增规则集合 </Button>
       <br />
       <div
         v-for="(it, idx) in state.matchedSetList"
-        :key="idx"
+        :key="it.id"
         :class="`${cls}--set-wrap`"
       >
-        <div>
-          <label>domainTest:</label>
-          <input :value="it.domainTest" />
-          <Button type="primary" :onClick="() => handleAddRule(idx)">
-            Add rule
+        <Button
+          :class="`${cls}--set-del`"
+          size="small"
+          shape="circle"
+          @click="handleDelSet(it, i)"
+        >
+          X
+        </Button>
+        <div :class="`${cls}--set-domain-head`">
+          <label>域名匹配规则（支持正则）：</label>
+          <input :value="it.domainTest" :class="`${cls}--set-domain-input`" />
+          <Button type="primary" @click="() => handleAddRule(idx)" size="small">
+            添加 Api 规则
           </Button>
         </div>
 
         <hr />
 
-        <div v-for="(rule, idx2) in it.rules" :key="idx2">
+        <div
+          v-for="(rule, idx2) in it.rules"
+          :key="rule.id"
+          style="padding: 0 10px; margin-bottom: 10px"
+        >
           <div>
-            <label>rule-{{ idx2 }}:</label>
+            <label>
+              Rule {{ idx2 + 1 }} ----
+              <Button
+                :class="`${cls}--set-del-rule`"
+                size="small"
+                shape="circle"
+                @click="handleDelRule(rule, idx, idx2)"
+              >
+                X
+              </Button>
+            </label>
             <div>
-              apiTest: <input v-model="rule.apiTest" style="width: 300px" />
+              Api 匹配规则（仅字符串子串）：
+              <br />
+              <input v-model="rule.apiTest" style="width: 100%; padding: 8px" />
             </div>
-            <div>response: <textarea v-model="rule.response" /></div>
+            <div>
+              Mock Response（仅 JSON）：
+              <br />
+              <textarea
+                v-model="rule.response"
+                rows="6"
+                style="width: 100%; max-width: 100%; padding: 8px"
+              />
+            </div>
           </div>
         </div>
       </div>
@@ -72,7 +104,7 @@ export default defineComponent({
       close: () => {
         show.value = false;
       },
-      handleAdd: () => {
+      handleAddSet: () => {
         state.matchedSetList.unshift({
           domainTest: location.hostname,
           rules: [],
@@ -86,6 +118,17 @@ export default defineComponent({
           response: '',
           disabled: false,
         });
+      },
+      handleDelSet: (item: ISet) => {
+        if (confirm('是否删除该集合，包括其下所有 Api 配置？')) {
+          Store.deleteSets([item.id]);
+          state.matchedSetList = state.matchedSetList.filter(it => it !== item);
+        }
+      },
+      handleDelRule: (item: any, setIdx: number, _ruleIdx: number) => {
+        state.matchedSetList[setIdx].rules = state.matchedSetList[
+          setIdx
+        ].rules.filter(it => it !== item);
       },
     };
   },
@@ -114,20 +157,37 @@ export default defineComponent({
     background: #fff;
     border-radius: 4px;
     box-shadow: 0 0 24px 0 rgba(102, 102, 102, 0.08);
-    min-height: 360px;
+    height: 640px;
+    max-height: 100%;
     max-width: 100%;
     width: 720px;
+
+    overflow-y: auto;
   }
 
   &--set-wrap {
     border: @color5 1px solid;
     border-radius: 4px;
-    margin: 10px;
+    margin: 15px 30px;
     padding: 16px;
+    position: relative;
+  }
 
-    & + & {
-      margin-top: 10px;
-    }
+  &--set-del {
+    position: absolute;
+    top: -12px;
+    right: -12px;
+  }
+
+  &--set-domain-input {
+    width: 300px;
+    margin-right: 10px;
+  }
+
+  &--set-domain-head {
+    height: 40px;
+    display: flex;
+    align-items: center;
   }
 }
 </style>
