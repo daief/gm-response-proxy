@@ -77,11 +77,6 @@ function bootstrap() {
 
   document.body.appendChild(el);
   document.body.appendChild(elForMount);
-
-  if (process.env.NODE_ENV === 'development') {
-    // TODO rm
-    onClickEl({} as any);
-  }
 }
 
 if (document.readyState === 'loading') {

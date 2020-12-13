@@ -39,7 +39,11 @@
         </Button>
         <div :class="`${cls}--set-domain-head`">
           <label>域名匹配规则：</label>
-          <input :value="it.domainTest" :class="`${cls}--set-domain-input`" />
+          <input
+            :value="it.domainTest"
+            :class="`${cls}--set-domain-input`"
+            placeholder="请输入"
+          />
           <Button type="primary" @click="() => handleAddRule(idx)" size="small">
             添加 Api 规则
           </Button>
@@ -67,15 +71,25 @@
             <div>
               Api 匹配规则：
               <br />
-              <input v-model="rule.apiTest" style="width: 100%; padding: 8px" />
+              <input
+                v-model="rule.apiTest"
+                style="width: 100%; padding: 8px"
+                placeholder="请输入"
+              />
             </div>
             <div>
               Mock Response（仅 JSON）：
               <br />
               <textarea
                 v-model="rule.response"
+                placeholder="请输入"
                 rows="6"
-                style="width: 100%; max-width: 100%; padding: 8px"
+                style="
+                  width: 100%;
+                  max-width: 100%;
+                  padding: 8px;
+                  resize: vertical;
+                "
               />
             </div>
           </div>

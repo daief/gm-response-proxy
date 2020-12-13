@@ -81,7 +81,7 @@ const config: Configuration = {
           'https://cdn.jsdelivr.net/gh/daief/gm-response-proxy@main/dist/index.js',
         ],
         ['run-at', `document-start`],
-        ['noframes', ''],
+        // ['noframes', ''],
         ['grant', 'unsafeWindow'],
         ['grant', 'GM_setValue'],
         ['grant', 'GM_getValue'],

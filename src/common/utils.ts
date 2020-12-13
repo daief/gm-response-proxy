@@ -23,9 +23,9 @@ export function uuid4() {
 }
 
 export function isMatchUrl(matchRule: string, url: string): boolean {
-  if (url.includes(matchRule)) {
-    return true;
+  if (/^\/.*\/$/.test(matchRule)) {
+    return new RegExp(matchRule, 'ig').test(url);
   }
 
-  return new RegExp(matchRule, 'ig').test(url);
+  return url.includes(matchRule);
 }

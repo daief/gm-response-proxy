@@ -127,7 +127,7 @@ build
 # !admins/unified-certification/build
 apollo.config.js
 *.out
-dist
+dist/*
 !dist/index.js
 lib
 
