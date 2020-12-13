@@ -69,6 +69,17 @@ const config: Configuration = {
         ['author', pkg.author.name],
         ['email', pkg.author.email],
         ['match', `*://*/*`],
+        ['homepage', 'https://github.com/daief/gm-response-proxy'],
+        ['homepageURL', 'https://github.com/daief/gm-response-proxy'],
+        ['supportURL', 'https://github.com/daief/gm-response-proxy/issues'],
+        [
+          'updateURL',
+          'https://cdn.jsdelivr.net/gh/daief/gm-response-proxy@main/dist/index.js',
+        ],
+        [
+          'downloadURL',
+          'https://cdn.jsdelivr.net/gh/daief/gm-response-proxy@main/dist/index.js',
+        ],
         ['run-at', `document-start`],
         ['noframes', ''],
         ['grant', 'unsafeWindow'],

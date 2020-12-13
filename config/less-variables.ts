@@ -1,7 +1,7 @@
 import { generate, gold, red } from '@ant-design/colors';
 import Color from 'color';
 
-const primary = '#f6438a';
+const primary = '#13c2c2';
 const grey = '#bfbfbf';
 
 // https://ant.design/docs/spec/colors-cn

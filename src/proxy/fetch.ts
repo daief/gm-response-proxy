@@ -1,10 +1,10 @@
-import { cache, vmCtx } from '@/common';
+import { cache, isMatchUrl, vmCtx } from '@/common';
 import { Store } from '@/data';
 
 function proxyRes(response: Response) {
   const ruleSet = Store.findCurrentSet();
   const matchedRule = ruleSet.rules.find(it =>
-    response.url.includes(it.apiTest)
+    isMatchUrl(it.apiTest, response.url)
   );
 
   return matchedRule?.response;

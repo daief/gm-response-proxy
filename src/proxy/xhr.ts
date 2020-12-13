@@ -1,4 +1,4 @@
-import { vmCtx } from '@/common';
+import { isMatchUrl, vmCtx } from '@/common';
 import { Store } from '@/data';
 
 const NativeXMLHttpRequest = vmCtx.XMLHttpRequest;
@@ -41,9 +41,15 @@ vmCtx.XMLHttpRequest = class extends (
     this.#method = method;
     this.#url = url;
 
+    if (/^(https?:\/\/)|(\/\/)/.test(url)) {
+      this.#url = url;
+    } else {
+      this.#url = `${location.origin}/${url.replace(/^\//, '')}`;
+    }
+
     const ruleSet = Store.findCurrentSet();
     const matchedRule = ruleSet.rules.find(it =>
-      this.#url.includes(it.apiTest)
+      isMatchUrl(it.apiTest, this.#url)
     );
 
     if (matchedRule?.response) {

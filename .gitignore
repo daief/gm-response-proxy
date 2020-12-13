@@ -128,6 +128,7 @@ build
 apollo.config.js
 *.out
 dist
+!dist/index.js
 lib
 
 # gatsby files

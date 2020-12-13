@@ -1,4 +1,4 @@
-import { NAMESPACE, uuid4 } from '@/common';
+import { isMatchUrl, NAMESPACE, uuid4 } from '@/common';
 import values from 'lodash/values';
 
 export interface IPrxyRule {
@@ -29,7 +29,7 @@ export const Store = {
   },
   getMatchedSetList(): ISet[] {
     return Store.getSetList().filter(it =>
-      new RegExp(it.domainTest, 'ig').test(location.host)
+      isMatchUrl(it.domainTest, location.host)
     );
   },
   findCurrentSet(): ISet {

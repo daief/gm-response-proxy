@@ -21,3 +21,11 @@ export function uuid4() {
     return v.toString(16);
   });
 }
+
+export function isMatchUrl(matchRule: string, url: string): boolean {
+  if (url.includes(matchRule)) {
+    return true;
+  }
+
+  return new RegExp(matchRule, 'ig').test(url);
+}

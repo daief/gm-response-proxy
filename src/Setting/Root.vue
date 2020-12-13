@@ -1,8 +1,29 @@
 <template>
   <div v-show="show" :class="cls" @click.self="close">
     <div :class="`${cls}--container`">
-      <Button type="primary" @click="handleAddSet"> + 新增规则集合 </Button>
-      <br />
+      <div :class="`${cls}--ctrl-type-wrap`">
+        <Button
+          v-for="(item, index) in ctrlList"
+          :key="index"
+          @click="showType = item[0]"
+          :type="showType === item[0] ? 'primary' : 'secondary'"
+          style="width: 120px"
+        >
+          {{ item[1] }}
+          {{ showType === item[0] ? state.matchedSetList.length : '' }}
+        </Button>
+      </div>
+      <Button
+        type="primary"
+        @click="handleAddSet"
+        :style="{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+        }"
+      >
+        + 新增规则集合
+      </Button>
       <div
         v-for="(it, idx) in state.matchedSetList"
         :key="it.id"
@@ -17,7 +38,7 @@
           X
         </Button>
         <div :class="`${cls}--set-domain-head`">
-          <label>域名匹配规则（支持正则）：</label>
+          <label>域名匹配规则：</label>
           <input :value="it.domainTest" :class="`${cls}--set-domain-input`" />
           <Button type="primary" @click="() => handleAddRule(idx)" size="small">
             添加 Api 规则
@@ -29,7 +50,7 @@
         <div
           v-for="(rule, idx2) in it.rules"
           :key="rule.id"
-          style="padding: 0 10px; margin-bottom: 10px"
+          style="padding: 0 10px; margin: 10px 0"
         >
           <div>
             <label>
@@ -44,7 +65,7 @@
               </Button>
             </label>
             <div>
-              Api 匹配规则（仅字符串子串）：
+              Api 匹配规则：
               <br />
               <input v-model="rule.apiTest" style="width: 100%; padding: 8px" />
             </div>
@@ -67,7 +88,7 @@
 <script lang="ts">
 import { Store } from '@/data';
 import type { ISet } from '@/data';
-import { defineComponent, onMounted, reactive, ref, watch } from 'vue';
+import { computed, defineComponent, reactive, ref, watch } from 'vue';
 import Button from '@/compts/Button.vue';
 import { ns, uuid4 } from '@/common';
 
@@ -80,9 +101,9 @@ export default defineComponent({
       matchedSetList: [],
     });
 
-    onMounted(() => {
-      state.matchedSetList = Store.getMatchedSetList();
-    });
+    const show = ref(false);
+    const showType = ref<'CURRENT' | 'ALL'>('CURRENT');
+    const isAll = computed(() => showType.value === 'ALL');
 
     watch(
       () => state.matchedSetList,
@@ -92,12 +113,28 @@ export default defineComponent({
       { deep: true }
     );
 
-    const show = ref(false);
+    watch(
+      isAll,
+      () => {
+        console.log(222, isAll);
+
+        state.matchedSetList = isAll.value
+          ? Store.getSetList()
+          : Store.getMatchedSetList();
+      },
+      { immediate: true }
+    );
 
     return {
       cls: ns('root'),
       state,
       show,
+      showType,
+      isAll,
+      ctrlList: [
+        ['CURRENT', '当前匹配'],
+        ['ALL', '所有规则'],
+      ],
       open: () => {
         show.value = true;
       },
@@ -146,6 +183,13 @@ export default defineComponent({
   position: fixed;
   z-index: 1000;
   background-color: rgba(0, 0, 0, 0.65);
+
+  &--ctrl-type-wrap {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 40px;
+  }
 
   &--container {
     position: absolute;
