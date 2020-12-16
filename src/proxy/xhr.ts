@@ -37,7 +37,7 @@ vmCtx.XMLHttpRequest = class extends (
     return this.#mockResponse || super.responseText;
   }
 
-  open(method: string, url: string): void {
+  open(method: string, url: string, ...rest: any[]): void {
     this.#method = method;
     this.#url = url;
 
@@ -57,6 +57,7 @@ vmCtx.XMLHttpRequest = class extends (
       this.#proxyed = true;
     }
 
-    return super.open(method, url);
+    // @ts-ignore
+    return super.open(method, url, ...rest);
   }
 };

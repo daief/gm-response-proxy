@@ -130,8 +130,6 @@ export default defineComponent({
     watch(
       isAll,
       () => {
-        console.log(222, isAll);
-
         state.matchedSetList = isAll.value
           ? Store.getSetList()
           : Store.getMatchedSetList();
@@ -172,7 +170,7 @@ export default defineComponent({
       },
       handleDelSet: (item: ISet) => {
         if (confirm('是否删除该集合，包括其下所有 Api 配置？')) {
-          Store.deleteSets([item.id]);
+          Store.deleteSetList([item.id]);
           state.matchedSetList = state.matchedSetList.filter(it => it !== item);
         }
       },

@@ -71,6 +71,7 @@ export default defineComponent({
 
 <style scoped lang="less">
 .@{prefix}__button {
+  appearance: none;
   text-transform: none;
   position: relative;
   display: inline-flex;

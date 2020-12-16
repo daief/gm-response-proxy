@@ -1,5 +1,6 @@
 import { isMatchUrl, NAMESPACE, uuid4 } from '@/common';
 import values from 'lodash/values';
+import debounce from 'lodash/debounce';
 
 export interface IPrxyRule {
   id: string;
@@ -42,7 +43,7 @@ export const Store = {
     };
     return ruleSet;
   },
-  updateSetList(input: ISet[]) {
+  updateSetList: debounce((input: ISet[]) => {
     const store = Store.getStoreObject();
     input.forEach(it => {
       const target = store[it.id];
@@ -52,8 +53,8 @@ export const Store = {
       store[it.id] = it;
     });
     GM_setValue(KEY_SET, store);
-  },
-  deleteSets(ids: string[]) {
+  }, 2000),
+  deleteSetList(ids: string[]) {
     const store = Store.getStoreObject();
     ids.forEach(id => {
       delete store[id];

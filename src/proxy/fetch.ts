@@ -59,7 +59,11 @@ if (typeof Response !== 'undefined') {
     return nativeRes;
   };
 
-  vmCtx.fetch = async function (input: RequestInfo, init?: RequestInit) {
+  vmCtx.fetch = async function (
+    input: RequestInfo,
+    init?: RequestInit,
+    ...rest: any[]
+  ) {
     let method = 'GET';
     if (input instanceof Request) {
       method = input.method;
@@ -67,7 +71,7 @@ if (typeof Response !== 'undefined') {
       method = init?.method || method;
     }
 
-    const res: Response = await nativeFetch.apply(this, [input, init]);
+    const res: Response = await nativeFetch.apply(this, [input, init, ...rest]);
 
     const proxyedResponse = proxyRes(res);
 
