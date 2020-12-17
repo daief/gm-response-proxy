@@ -4,7 +4,7 @@ import { Store } from '@/data';
 function proxyRes(response: Response) {
   const ruleSet = Store.findCurrentSet();
   const matchedRule = ruleSet.rules.find(it =>
-    isMatchUrl(it.apiTest, response.url)
+    isMatchUrl(it.apiTest, response.url),
   );
 
   return matchedRule?.response;
@@ -12,7 +12,7 @@ function proxyRes(response: Response) {
 
 function log({ method, url, status, response }: any) {
   GM_log(`❗️ [fetch] Response is proxyed:\n`);
-  console.table({
+  (console.table || GM_log)({
     method,
     url,
     status,

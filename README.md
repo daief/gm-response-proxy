@@ -1,6 +1,6 @@
 ## GM Response Proxy
 
-一款代理了请求（包括 XMLHttpRequest 和 fetch）响应的油猴脚本，即 mock 请求的响应。。
+一款代理请求（包括 XMLHttpRequest 和 fetch）响应结果的油猴脚本，即 mock 请求的响应。
 
 yarn@berry、Vue3、油猴脚本的尝试，简陋的功能和 UI。
 
@@ -14,7 +14,8 @@ yarn@berry、Vue3、油猴脚本的尝试，简陋的功能和 UI。
 
 - [x] 支持 XHR
 - [x] 支持 fetch
-- [ ] 界面（Vue 模块）异步加载、界面优化
+- [ ] 界面（Vue 模块）异步加载，预计能极大减少脚本初始化大小，提升体验
+- [ ] 界面优化
 - [x] iframe 的情况。
   - 所有 iframe 都会注入脚本
   - 只在顶层 iframe 展示操作按钮，列出 iframe 匹配的规则

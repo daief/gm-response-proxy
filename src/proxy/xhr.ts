@@ -28,7 +28,7 @@ vmCtx.XMLHttpRequest = class extends (
       this.#mockResponse = matchedRule.response;
 
       GM_log(`❗️ [XHR] Response is proxyed:\n`);
-      console.table({
+      (console.table || GM_log)({
         method: this.#method,
         url: this.#url,
         status: this.status,

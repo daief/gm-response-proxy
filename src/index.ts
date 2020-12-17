@@ -3,9 +3,28 @@ import './proxy/xhr';
 import './global.less';
 import { vmCtx } from './common';
 
-// TODO change to async
 import { render } from './Setting';
-// import(/* webpackChunkName: 'setting' */ './Setting');
+
+// const lazeloadModules = (): Promise<{ Vue: typeof import('vue') }> => {
+//   return new Promise((resolve, reject) => {
+//     GM_xmlhttpRequest({
+//       url: '',
+//       onload: e => {
+//         if (e.status !== 200) {
+//           reject(e);
+//           return;
+//         }
+//         try {
+//           const Vue = new Function(`${e.responseText}; return Vue;`)();
+//           resolve({ Vue });
+//         } catch (error) {
+//           reject(error);
+//         }
+//       },
+//       onerror: reject,
+//     });
+//   });
+// };
 
 function bootstrap() {
   if (vmCtx.top !== vmCtx) {
