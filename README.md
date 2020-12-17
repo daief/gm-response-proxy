@@ -15,7 +15,9 @@ yarn@berry、Vue3、油猴脚本的尝试，简陋的功能和 UI。
 - [x] 支持 XHR
 - [x] 支持 fetch
 - [ ] 界面（Vue 模块）异步加载
-- [ ] iframe 的情况
+- [x] iframe 的情况。
+  - 所有 iframe 都会注入脚本
+  - 只在顶层 iframe 展示操作按钮，列出 iframe 匹配的规则
 - [ ] 规则开关
 - [ ] 国际化（大概）
 

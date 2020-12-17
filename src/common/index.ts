@@ -1,4 +1,8 @@
+import { vmCtx } from './ctx';
+
 export * from './utils';
+
+export { vmCtx };
 
 export const cache = new WeakMap<
   XMLHttpRequest | Response,
@@ -9,12 +13,9 @@ export const cache = new WeakMap<
   }
 >();
 
-export const NAMESPACE = location.host;
+export const NAMESPACE = vmCtx.location.origin;
 
 export const PREFIX = 'gm-rp';
-
-export const vmCtx: Window & typeof globalThis =
-  typeof unsafeWindow !== 'undefined' ? unsafeWindow : window;
 
 export function ns(c = '') {
   return `${PREFIX}__${c}`;

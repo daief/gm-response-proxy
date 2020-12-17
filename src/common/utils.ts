@@ -1,3 +1,5 @@
+import { vmCtx } from './ctx';
+
 export function safeParse(str: string) {
   try {
     return JSON.parse(str);
@@ -28,4 +30,26 @@ export function isMatchUrl(matchRule: string, url: string): boolean {
   }
 
   return url.includes(matchRule);
+}
+
+export function findPageOriginList(deep = 3) {
+  const result: string[] = [];
+  result.push(vmCtx.location.origin);
+
+  function walkIn(doc: Document | null, lvl = 1) {
+    if (lvl >= deep || !doc) {
+      return;
+    }
+    doc.querySelectorAll('iframe').forEach(ife => {
+      if (ife?.src && /^http/i.test(ife.src)) {
+        result.push(ife.src);
+      }
+
+      walkIn(ife.contentDocument, lvl + 1);
+    });
+  }
+
+  walkIn(document, 1);
+
+  return [...new Set(result)];
 }

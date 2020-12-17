@@ -11985,11 +11985,13 @@ const render = /*#__PURE__*/_withId((_ctx, _cache, $props, $setup, $data, $optio
             class: `${_ctx.cls}--set-domain-head`
           }, [
             _hoisted_3,
-            (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("input", {
-              value: it.domainTest,
+            (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("input", {
+              "onUpdate:modelValue": $event => (it.domainTest = $event),
               class: `${_ctx.cls}--set-domain-input`,
               placeholder: "请输入"
-            }, null, 10 /* CLASS, PROPS */, ["value"]),
+            }, null, 10 /* CLASS, PROPS */, ["onUpdate:modelValue"]), [
+              [vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, it.domainTest]
+            ]),
             (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Button, {
               type: "primary",
               onClick: () => _ctx.handleAddRule(idx),
@@ -13105,6 +13107,26 @@ function render(el) {
 
 /***/ }),
 
+/***/ "./src/common/ctx.ts":
+/*!***************************!*\
+  !*** ./src/common/ctx.ts ***!
+  \***************************/
+/*! namespace exports */
+/*! export vmCtx [provided] [no usage info] [missing usage info prevents renaming] */
+/*! other exports [not provided] [no usage info] */
+/*! runtime requirements: __webpack_require__.r, __webpack_exports__, __webpack_require__.d, __webpack_require__.* */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "vmCtx": () => /* binding */ vmCtx
+/* harmony export */ });
+const vmCtx = typeof unsafeWindow !== 'undefined' ? unsafeWindow : window;
+
+
+/***/ }),
+
 /***/ "./src/common/index.ts":
 /*!*****************************!*\
   !*** ./src/common/index.ts ***!
@@ -13113,12 +13135,13 @@ function render(el) {
 /*! export NAMESPACE [provided] [no usage info] [missing usage info prevents renaming] */
 /*! export PREFIX [provided] [no usage info] [missing usage info prevents renaming] */
 /*! export cache [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export findPageOriginList [provided] [no usage info] [missing usage info prevents renaming] -> ./src/common/utils.ts .findPageOriginList */
 /*! export isMatchUrl [provided] [no usage info] [missing usage info prevents renaming] -> ./src/common/utils.ts .isMatchUrl */
 /*! export isPromise [provided] [no usage info] [missing usage info prevents renaming] -> ./src/common/utils.ts .isPromise */
 /*! export ns [provided] [no usage info] [missing usage info prevents renaming] */
 /*! export safeParse [provided] [no usage info] [missing usage info prevents renaming] -> ./src/common/utils.ts .safeParse */
 /*! export uuid4 [provided] [no usage info] [missing usage info prevents renaming] -> ./src/common/utils.ts .uuid4 */
-/*! export vmCtx [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export vmCtx [provided] [no usage info] [missing usage info prevents renaming] -> ./src/common/ctx.ts .vmCtx */
 /*! other exports [not provided] [no usage info] */
 /*! runtime requirements: __webpack_require__, __webpack_exports__, __webpack_require__.d, __webpack_require__.r, __webpack_require__.* */
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
@@ -13126,22 +13149,25 @@ function render(el) {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "isMatchUrl": () => /* reexport safe */ _utils__WEBPACK_IMPORTED_MODULE_0__.isMatchUrl,
-/* harmony export */   "isPromise": () => /* reexport safe */ _utils__WEBPACK_IMPORTED_MODULE_0__.isPromise,
-/* harmony export */   "safeParse": () => /* reexport safe */ _utils__WEBPACK_IMPORTED_MODULE_0__.safeParse,
-/* harmony export */   "uuid4": () => /* reexport safe */ _utils__WEBPACK_IMPORTED_MODULE_0__.uuid4,
+/* harmony export */   "findPageOriginList": () => /* reexport safe */ _utils__WEBPACK_IMPORTED_MODULE_1__.findPageOriginList,
+/* harmony export */   "isMatchUrl": () => /* reexport safe */ _utils__WEBPACK_IMPORTED_MODULE_1__.isMatchUrl,
+/* harmony export */   "isPromise": () => /* reexport safe */ _utils__WEBPACK_IMPORTED_MODULE_1__.isPromise,
+/* harmony export */   "safeParse": () => /* reexport safe */ _utils__WEBPACK_IMPORTED_MODULE_1__.safeParse,
+/* harmony export */   "uuid4": () => /* reexport safe */ _utils__WEBPACK_IMPORTED_MODULE_1__.uuid4,
+/* harmony export */   "vmCtx": () => /* reexport safe */ _ctx__WEBPACK_IMPORTED_MODULE_0__.vmCtx,
 /* harmony export */   "cache": () => /* binding */ cache,
 /* harmony export */   "NAMESPACE": () => /* binding */ NAMESPACE,
 /* harmony export */   "PREFIX": () => /* binding */ PREFIX,
-/* harmony export */   "vmCtx": () => /* binding */ vmCtx,
 /* harmony export */   "ns": () => /* binding */ ns
 /* harmony export */ });
-/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./utils */ "./src/common/utils.ts");
+/* harmony import */ var _ctx__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ctx */ "./src/common/ctx.ts");
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./utils */ "./src/common/utils.ts");
+
+
 
 const cache = new WeakMap();
-const NAMESPACE = location.host;
+const NAMESPACE = _ctx__WEBPACK_IMPORTED_MODULE_0__.vmCtx.location.origin;
 const PREFIX = 'gm-rp';
-const vmCtx = typeof unsafeWindow !== 'undefined' ? unsafeWindow : window;
 function ns(c = '') {
     return `${PREFIX}__${c}`;
 }
@@ -13154,12 +13180,13 @@ function ns(c = '') {
   !*** ./src/common/utils.ts ***!
   \*****************************/
 /*! namespace exports */
+/*! export findPageOriginList [provided] [no usage info] [missing usage info prevents renaming] */
 /*! export isMatchUrl [provided] [no usage info] [missing usage info prevents renaming] */
 /*! export isPromise [provided] [no usage info] [missing usage info prevents renaming] */
 /*! export safeParse [provided] [no usage info] [missing usage info prevents renaming] */
 /*! export uuid4 [provided] [no usage info] [missing usage info prevents renaming] */
 /*! other exports [not provided] [no usage info] */
-/*! runtime requirements: __webpack_require__.r, __webpack_exports__, __webpack_require__.d, __webpack_require__.* */
+/*! runtime requirements: __webpack_require__, __webpack_require__.r, __webpack_exports__, __webpack_require__.d, __webpack_require__.* */
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -13168,8 +13195,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "safeParse": () => /* binding */ safeParse,
 /* harmony export */   "isPromise": () => /* binding */ isPromise,
 /* harmony export */   "uuid4": () => /* binding */ uuid4,
-/* harmony export */   "isMatchUrl": () => /* binding */ isMatchUrl
+/* harmony export */   "isMatchUrl": () => /* binding */ isMatchUrl,
+/* harmony export */   "findPageOriginList": () => /* binding */ findPageOriginList
 /* harmony export */ });
+/* harmony import */ var _ctx__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ctx */ "./src/common/ctx.ts");
+
 function safeParse(str) {
     try {
         return JSON.parse(str);
@@ -13194,6 +13224,23 @@ function isMatchUrl(matchRule, url) {
         return new RegExp(matchRule, 'ig').test(url);
     }
     return url.includes(matchRule);
+}
+function findPageOriginList(deep = 3) {
+    const result = [];
+    result.push(_ctx__WEBPACK_IMPORTED_MODULE_0__.vmCtx.location.origin);
+    function walkIn(doc, lvl = 1) {
+        if (lvl >= deep || !doc) {
+            return;
+        }
+        doc.querySelectorAll('iframe').forEach(ife => {
+            if ((ife === null || ife === void 0 ? void 0 : ife.src) && /^http/i.test(ife.src)) {
+                result.push(ife.src);
+            }
+            walkIn(ife.contentDocument, lvl + 1);
+        });
+    }
+    walkIn(document, 1);
+    return [...new Set(result)];
 }
 
 
@@ -13235,12 +13282,13 @@ const Store = {
         return res;
     },
     getMatchedSetList() {
-        return Store.getSetList().filter(it => (0,_common__WEBPACK_IMPORTED_MODULE_0__.isMatchUrl)(it.domainTest, location.host));
+        const origins = (0,_common__WEBPACK_IMPORTED_MODULE_0__.findPageOriginList)();
+        return Store.getSetList().filter(it => origins.some(origin => (0,_common__WEBPACK_IMPORTED_MODULE_0__.isMatchUrl)(it.domainTest, origin)));
     },
     findCurrentSet() {
-        const ruleSet = Store.getSetList().find(it => new RegExp(it.domainTest, 'ig').test(location.host)) || {
+        const ruleSet = Store.getSetList().find(it => new RegExp(it.domainTest, 'ig').test(_common__WEBPACK_IMPORTED_MODULE_0__.NAMESPACE)) || {
             id: (0,_common__WEBPACK_IMPORTED_MODULE_0__.uuid4)(),
-            domainTest: location.host,
+            domainTest: _common__WEBPACK_IMPORTED_MODULE_0__.NAMESPACE,
             rules: [],
         };
         return ruleSet;
@@ -13249,10 +13297,7 @@ const Store = {
         const store = Store.getStoreObject();
         input.forEach(it => {
             const target = store[it.id];
-            if (target) {
-                return Object.assign(target, it);
-            }
-            store[it.id] = it;
+            store[it.id] = target ? Object.assign(target, it) : it;
         });
         GM_setValue(KEY_SET, store);
     }, 2000),
@@ -13301,6 +13346,10 @@ var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _argume
 
 // import(/* webpackChunkName: 'setting' */ './Setting');
 function bootstrap() {
+    if (_common__WEBPACK_IMPORTED_MODULE_3__.vmCtx.top !== _common__WEBPACK_IMPORTED_MODULE_3__.vmCtx) {
+        // 只在顶层页面展示操作
+        return;
+    }
     let handler;
     let isDrag = false;
     let isMove = false;
@@ -13495,7 +13544,7 @@ var __classPrivateFieldSet = (undefined && undefined.__classPrivateFieldSet) || 
     privateMap.set(receiver, value);
     return value;
 };
-var _mockResponse, _url, _method, _proxyed, _a;
+var _mockResponse, _url, _method, _a;
 
 
 const NativeXMLHttpRequest = _common__WEBPACK_IMPORTED_MODULE_0__.vmCtx.XMLHttpRequest;
@@ -13505,18 +13554,21 @@ _common__WEBPACK_IMPORTED_MODULE_0__.vmCtx.XMLHttpRequest = (_a = class extends 
             _mockResponse.set(this, void 0);
             _url.set(this, void 0);
             _method.set(this, void 0);
-            _proxyed.set(this, false);
-            ['load', 'error'].forEach(ev => {
-                this.addEventListener(ev, () => {
-                    if (!__classPrivateFieldGet(this, _proxyed))
-                        return;
-                    GM_log(`❗️ [XHR] Response is proxyed:\n`);
-                    console.table({
-                        method: __classPrivateFieldGet(this, _method),
-                        url: __classPrivateFieldGet(this, _url),
-                        status: this.status,
-                        'proxyed response': __classPrivateFieldGet(this, _mockResponse),
-                    });
+            this.addEventListener('readystatechange', e => {
+                if (this.readyState !== 4)
+                    return;
+                const ruleSet = _data__WEBPACK_IMPORTED_MODULE_1__.Store.findCurrentSet();
+                const matchedRule = ruleSet.rules.find(it => (0,_common__WEBPACK_IMPORTED_MODULE_0__.isMatchUrl)(it.apiTest, __classPrivateFieldGet(this, _url)));
+                if (!(matchedRule === null || matchedRule === void 0 ? void 0 : matchedRule.response)) {
+                    return;
+                }
+                __classPrivateFieldSet(this, _mockResponse, matchedRule.response);
+                GM_log(`❗️ [XHR] Response is proxyed:\n`);
+                console.table({
+                    method: __classPrivateFieldGet(this, _method),
+                    url: __classPrivateFieldGet(this, _url),
+                    status: this.status,
+                    'proxyed response': __classPrivateFieldGet(this, _mockResponse),
                 });
             });
         }
@@ -13535,12 +13587,6 @@ _common__WEBPACK_IMPORTED_MODULE_0__.vmCtx.XMLHttpRequest = (_a = class extends 
             else {
                 __classPrivateFieldSet(this, _url, `${location.origin}/${url.replace(/^\//, '')}`);
             }
-            const ruleSet = _data__WEBPACK_IMPORTED_MODULE_1__.Store.findCurrentSet();
-            const matchedRule = ruleSet.rules.find(it => (0,_common__WEBPACK_IMPORTED_MODULE_0__.isMatchUrl)(it.apiTest, __classPrivateFieldGet(this, _url)));
-            if (matchedRule === null || matchedRule === void 0 ? void 0 : matchedRule.response) {
-                __classPrivateFieldSet(this, _mockResponse, matchedRule.response);
-                __classPrivateFieldSet(this, _proxyed, true);
-            }
             // @ts-ignore
             return super.open(method, url, ...rest);
         }
@@ -13548,7 +13594,6 @@ _common__WEBPACK_IMPORTED_MODULE_0__.vmCtx.XMLHttpRequest = (_a = class extends 
     _mockResponse = new WeakMap(),
     _url = new WeakMap(),
     _method = new WeakMap(),
-    _proxyed = new WeakMap(),
     _a);
 
 

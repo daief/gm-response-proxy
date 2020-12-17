@@ -1,4 +1,4 @@
-import { isMatchUrl, NAMESPACE, uuid4 } from '@/common';
+import { findPageOriginList, isMatchUrl, NAMESPACE, uuid4 } from '@/common';
 import values from 'lodash/values';
 import debounce from 'lodash/debounce';
 
@@ -29,16 +29,17 @@ export const Store = {
     return res;
   },
   getMatchedSetList(): ISet[] {
+    const origins = findPageOriginList();
     return Store.getSetList().filter(it =>
-      isMatchUrl(it.domainTest, location.host),
+      origins.some(origin => isMatchUrl(it.domainTest, origin)),
     );
   },
   findCurrentSet(): ISet {
     const ruleSet = Store.getSetList().find(it =>
-      new RegExp(it.domainTest, 'ig').test(location.host),
+      new RegExp(it.domainTest, 'ig').test(NAMESPACE),
     ) || {
       id: uuid4(),
-      domainTest: location.host,
+      domainTest: NAMESPACE,
       rules: [],
     };
     return ruleSet;
