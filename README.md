@@ -10,6 +10,8 @@ yarn@berry、Vue3、油猴脚本的尝试，简陋的功能和 UI。
 
 日志会直接在控制台输出。
 
+Greasyfork URL：<https://greasyfork.org/zh-CN/scripts/418749-response-proxy>
+
 ## TODO
 
 - [x] 支持 XHR
