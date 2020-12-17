@@ -30,12 +30,12 @@ export const Store = {
   },
   getMatchedSetList(): ISet[] {
     return Store.getSetList().filter(it =>
-      isMatchUrl(it.domainTest, location.host)
+      isMatchUrl(it.domainTest, location.host),
     );
   },
   findCurrentSet(): ISet {
     const ruleSet = Store.getSetList().find(it =>
-      new RegExp(it.domainTest, 'ig').test(location.host)
+      new RegExp(it.domainTest, 'ig').test(location.host),
     ) || {
       id: uuid4(),
       domainTest: location.host,
@@ -47,10 +47,7 @@ export const Store = {
     const store = Store.getStoreObject();
     input.forEach(it => {
       const target = store[it.id];
-      if (target) {
-        return Object.assign(target, it);
-      }
-      store[it.id] = it;
+      store[it.id] = target ? Object.assign(target, it) : it;
     });
     GM_setValue(KEY_SET, store);
   }, 2000),

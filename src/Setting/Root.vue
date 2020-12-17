@@ -40,7 +40,7 @@
         <div :class="`${cls}--set-domain-head`">
           <label>域名匹配规则：</label>
           <input
-            :value="it.domainTest"
+            v-model="it.domainTest"
             :class="`${cls}--set-domain-input`"
             placeholder="请输入"
           />
@@ -124,7 +124,7 @@ export default defineComponent({
       () => {
         Store.updateSetList(state.matchedSetList);
       },
-      { deep: true }
+      { deep: true },
     );
 
     watch(
@@ -134,7 +134,7 @@ export default defineComponent({
           ? Store.getSetList()
           : Store.getMatchedSetList();
       },
-      { immediate: true }
+      { immediate: true },
     );
 
     return {

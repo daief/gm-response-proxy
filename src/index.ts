@@ -8,6 +8,10 @@ import { render } from './Setting';
 // import(/* webpackChunkName: 'setting' */ './Setting');
 
 function bootstrap() {
+  if (vmCtx.top !== vmCtx) {
+    // 只在顶层页面展示操作
+    return;
+  }
   let handler: any;
   let isDrag = false;
   let isMove = false;
