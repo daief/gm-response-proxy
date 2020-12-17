@@ -13,7 +13,7 @@ vmCtx.XMLHttpRequest = class extends (
   constructor() {
     super();
 
-    this.addEventListener('readystatechange', e => {
+    this.addEventListener('readystatechange', () => {
       if (this.readyState !== 4) return;
 
       const ruleSet = Store.findCurrentSet();
