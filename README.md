@@ -26,6 +26,10 @@ Greasyfork URL：<https://greasyfork.org/zh-CN/scripts/418749-response-proxy>
 
 ## Note
 
+### Document
+
+- [tampermonkey documentation](https://www.tampermonkey.net/documentation.php)
+
 ### 调试、自动刷新
 
 起个本地服务托管 `dist`，如 `live-server --port=777`，之后在油猴脚本中写入以下代码，当源码更新后可自动刷新：
